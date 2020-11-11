@@ -17,4 +17,10 @@ class SoireeController extends AbstractController
             'controller_name' => 'SoireeController',
         ]);
     }
+    /**
+    * @Route("/", name="home")
+    */
+    public function home() {
+    	return $this->render("soiree/home.html.twig");
+    }
 }
