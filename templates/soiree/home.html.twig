@@ -1,3 +1,47 @@
 {% extends 'base.html.twig' %}
 {% block body %}
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Prenom</th>
+      <th scope="col">Nom</th>
+      <th scope="col">Argent dû</th>
+      <th scope="col">Modifier</th>
+    </tr>
+  </thead>
+  <tbody>
+  <?php
+$moyenne=0;
+$compteur=0;
+foreach ($lignes as $ligne) {
+    $compteur++;
+    $moyenne=$moyenne+$ligne["Prix"]; 
+}
+$moyenne=$moyenne/$compteur;
+foreach ($lignes as $ligne) {
+    ?>
+            <tr>
+                <td><?php echo $ligne["prenom"]?></td>
+                <td><?php echo $ligne["Nom"]?></td>
+                <td><?php echo $ligne["Prix"]?>€</td>
+                
+                <td><?php echo round($ligne["Prix"]-$moyenne,2, PHP_ROUND_HALF_EVEN) ?>€</td>
+                    
+                </td>
+                <td>   <a href="modifier_budget.php?id=<?php echo $ligne["id"] ?>"
+                       class="btn-floating">
+                        <i class="material-icons">edit</i>
+                            <a href="actions/supprimerUnBudget.php?id=<?php echo $ligne["id"] ?>"
+                       class="btn-floating red">
+                        <i class="material-icons">delete</i>
+                    </a>
+                </td>
+            </tr>
+            <?php
+        }
+        
+        ?>
+
+    </tbody>
+</table>
 {% endblock %}
