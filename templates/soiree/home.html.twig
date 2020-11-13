@@ -5,26 +5,29 @@
         <tr>
             <th scope="col">Prenom</th>
             <th scope="col">Nom</th>
+            <th scope="col">Argent donné</th>
             <th scope="col">Argent dû</th>
             <th scope="col">Modifier</th>
         </tr>
         </thead>
         <tbody>
-        <?php
-$moyenne=0;
-$compteur=0;
-foreach ($lignes as $ligne) {
-    $compteur++;
-    $moyenne=$moyenne+$ligne["Prix"];
-}
-$moyenne=$moyenne/$compteur;
+        {% set total = 0 %}
+        {% set compteur = 0 %}
+
+        {% for personne in personnes %}
+            {% set compteur = compteur + 1 %}
+            {% set total = total + personne.argentDepense %}
+        {% endfor %}
+
+        {% set argent_rembourse = total/compteur %}
+        {% set argent_recoit = total/compteur %}
+
 {% for personne in personnes %}
         <tr>
             <td>{{ personne.nom }}</td>
             <td>{{ personne.prenom }}</td>
             <td>{{ personne.argentDepense }} €</td>
-
-            <td><?php echo round($ligne["Prix"]-$moyenne,2, PHP_ROUND_HALF_EVEN) ?>€</td>
+            <td>{{ (argent_recoit - personne.argentDepense)|round(2, 'ceil') }} €</td>
 
             </td>
             <td>
@@ -35,6 +38,7 @@ $moyenne=$moyenne/$compteur;
             </td>
         </tr>
 {% endfor %}
+
         <?php
 
         ?>
