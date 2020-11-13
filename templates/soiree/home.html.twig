@@ -28,13 +28,11 @@ foreach ($lignes as $ligne) {
                 <td><?php echo round($ligne["Prix"]-$moyenne,2, PHP_ROUND_HALF_EVEN) ?>€</td>
                     
                 </td>
-                <td>   <a href="modifier_budget.php?id=<?php echo $ligne["id"] ?>"
-                       class="btn-floating">
+                <td>   <a href="modifier_budget.php?id=<?php echo $ligne["id"] ?>
                         <i class="material-icons">edit</i>
-                            <a href="actions/supprimerUnBudget.php?id=<?php echo $ligne["id"] ?>"
-                       class="btn-floating red">
+                            <a href="actions/supprimerUnBudget.php?id=<?php echo $ligne["id"] ?>
                         <i class="material-icons">delete</i>
-                    </a>
+                    </>
                 </td>
             </tr>
             <?php
