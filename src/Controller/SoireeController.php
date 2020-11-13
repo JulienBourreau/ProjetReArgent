@@ -3,10 +3,14 @@
 namespace App\Controller;
 
 use App\Form\AjoutPersonneType;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Personne;
+use App\Repository\PersonneRepository;
+use Symfony\Component\HttpFoundation\Request;
 
 class SoireeController extends AbstractController
 {
@@ -38,26 +42,35 @@ class SoireeController extends AbstractController
     /**
      * @Route("/soiree",name="personne_ajouter")
      */
-    public function ajouter(Request $request)
+    public function ajouter(Request $request, EntityManagerInterface $entityManager)
     {
         $personne = new Personne();
 
-        $form = $this->createForm(AjoutPersonneType::class, $personne);
+        $form = $this->createFormBuilder($personne)
+                     ->add('nom')
+                     ->add('prenom')
+                     ->add('argentDepense')
+                     ->getForm();
 
+        return $this->render('soiree/home', [
+            'formPersonne' => $form->createView()
+        ]);
+/*
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            //récupération de l'entityManager
-            $em = $this->getDoctrine()->getManager();
 
-            $em->persist($personne);
+            $personne->setNom($request->request->get('Nom'))
+                     ->setPrenom($request->request->get('Prenom'))
+                     ->setArgentDepense($request->request->get('ArgentDepense'));
 
-            $em->flush();
+            $manager->persist($personne);
+            $manager->flush();
 
-            return $this->redirectToRoute("personne", ["idPersonne"=>$personne->getNom()->getId()]);
+            return $this->redirectToRoute('home');
         }
 
-        return $this->render("soiree/index.html.twig", [
-            "formulaire" => $form->createView()
-        ]);
+        return $this->render("soiree/home.html.twig", [
+            "form" => $form->createView()
+        ]);*/
     }
 }
